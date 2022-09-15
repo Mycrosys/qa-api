@@ -107,4 +107,8 @@ class Issue(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
+        """
+        Returns the title and ID of an Issue
+        """
+
         return f'{self.id} {self.title}'
