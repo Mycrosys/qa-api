@@ -1,7 +1,7 @@
 from rest_framework import generics
+from qa_api.permissions import IsOwnerOrReadOnly
 from .models import Profile
 from .serializers import ProfileSerializer
-from qa_api.permissions import IsOwnerOrReadOnly
 
 
 class ProfileList(generics.ListAPIView):
@@ -12,6 +12,7 @@ class ProfileList(generics.ListAPIView):
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
