@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from issues.models import Issue
+# from issues.models import Issue
 
 
 class Journal(models.Model):
@@ -22,7 +22,7 @@ class Journal(models.Model):
     """
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    issue = models.ForeignKey("issues.Issue", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     action = models.CharField(max_length=255, blank=True)

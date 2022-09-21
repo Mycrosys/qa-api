@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from journal.models import Journal
 
 
 class Issue(models.Model):
@@ -112,3 +115,58 @@ class Issue(models.Model):
         """
 
         return f'{self.id} {self.title}'
+
+@receiver(pre_save, sender=Issue)
+def create_journal(sender, instance, **kwargs):
+    """
+    Signal to create a new Journal entry when changing
+    any field (except assigned_to).
+    """
+    try:
+        obj = sender.objects.get(pk=instance.pk)
+
+    # Newly created issue, so create no journal entry
+    except sender.DoesNotExist:
+        pass
+
+    else:
+        # Something was changed, create journal entry
+        action = ""
+        description = ""
+        if not obj.title == instance.title:
+            action += "Title, "
+            description += f"Title changed from '{obj.title}' to "
+            description += f"'{instance.title}'.\n"
+        if not obj.description == instance.description:
+            action += "Description, "
+            description += "Description was changed.\n"
+        if not obj.image == instance.image:
+            action += "Image, "
+            description += "Image was changed.\n"
+        if not obj.due_date == instance.due_date:
+            action += "Due Date, "
+            description += "Due Date was changed.\n"
+        if not obj.priority == instance.priority:
+            action += "Priority, "
+            description += f"Priority changed from '{obj.priority}' to "
+            description += f"'{instance.priority}'.\n"
+        if not obj.category == instance.category:
+            action += "Category, "
+            description += f"Category changed from '{obj.category}' to "
+            description += f"'{instance.category}'.\n"
+        if not obj.state == instance.state:
+            action += "State, "
+            description += f"State changed from '{obj.state}' to "
+            description += f"'{instance.state}'.\n"
+        if not obj.overdue == instance.overdue:
+            action += "Overdue, "
+            if instance.overdue:
+                description += "Overdue changed to True.\n"
+            else:
+                description += "Overdue changed to False.\n"
+
+        # remove the empty space and ',' at the end of the string
+        action = action[:-2]
+        # current_user = request.user
+        Journal.objects.create(owner=instance.owner, issue=instance,
+                               action=action, description=description)

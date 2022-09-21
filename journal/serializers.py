@@ -8,8 +8,7 @@ class JournalSerializer(serializers.ModelSerializer):
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
-    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -18,8 +17,8 @@ class JournalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Journal
         fields = [
-            'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
-            'issue', 'created_at', 'updated_at', 'action', 'description'
+            'id', 'owner', 'is_owner', 'issue', 'created_at', 
+            'updated_at', 'action', 'description'
         ]
 
 class JournalDetailSerializer(JournalSerializer):
