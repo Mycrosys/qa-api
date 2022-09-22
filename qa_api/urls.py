@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('issues.urls')),
     path('', include('journal.urls')),
+    path('', include('followers.urls')),
 ]
