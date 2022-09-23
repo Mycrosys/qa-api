@@ -7,6 +7,7 @@ class IssueSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    journals_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -32,5 +33,5 @@ class IssueSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'description', 'image', 'due_date',
             'priority', 'category', 'state', 'overdue',
-            'assigned_to'
+            'assigned_to', 'journals_count'
         ]

@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from django.db.models import Count
+from rest_framework import generics, permissions, filters
 from qa_api.permissions import IsOwnerOrAssignedOrReadOnly
 from .models import Issue
 from .serializers import IssueSerializer
@@ -11,7 +12,15 @@ class IssueList(generics.ListCreateAPIView):
     """
     serializer_class = IssueSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Issue.objects.all()
+    queryset = Issue.objects.annotate(
+        journals_count=Count('journal', distinct=True)
+    ).order_by('-created_at')
+    filter_backends = [
+        filters.OrderingFilter
+    ]
+    ordering_fields = [
+        'journals_count',
+    ]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -23,4 +32,6 @@ class IssueDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = IssueSerializer
     permission_classes = [IsOwnerOrAssignedOrReadOnly]
-    queryset = Issue.objects.all()
+    queryset = Issue.objects.annotate(
+        journals_count=Count('journal', distinct=True)
+    ).order_by('-created_at')
