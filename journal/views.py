@@ -1,4 +1,5 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
+from django_filters.rest_framework import DjangoFilterBackend
 from qa_api.permissions import IsOwnerOrReadOnly
 from .models import Journal
 from .serializers import JournalSerializer
@@ -10,8 +11,11 @@ class JournalList(generics.ListAPIView):
     There is no need for a create view, because its handled by django signals
     """
 
-    queryset = Journal.objects.all()
     serializer_class = JournalSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Journal.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['issue']
 
 
 class JournalDetail(generics.RetrieveAPIView):
@@ -21,5 +25,5 @@ class JournalDetail(generics.RetrieveAPIView):
     """
 
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Journal.objects.all()
     serializer_class = JournalSerializer
+    queryset = Journal.objects.all()
