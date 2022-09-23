@@ -1,9 +1,12 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from issues.models import Issue
 
 
 class IssueSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    assigned_to = serializers.SlugRelatedField(
+        queryset=User.objects.all(), many=True, slug_field="username")
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')

@@ -16,8 +16,15 @@ class IssueList(generics.ListCreateAPIView):
         journals_count=Count('journal', distinct=True)
     ).order_by('-created_at')
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        filters.SearchFilter,
     ]
+    search_fields = [
+        'owner__username',
+        'title',
+        'assigned_to__username',
+    ]
+
     ordering_fields = [
         'journals_count',
     ]
