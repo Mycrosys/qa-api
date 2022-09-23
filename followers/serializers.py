@@ -6,18 +6,17 @@ from .models import Follower
 class FollowerSerializer(serializers.ModelSerializer):
     """
     Serializer for the Follower model
-    Create method handles the unique constraint on 'follower'
+    Create method handles the unique constraint on 'followers'
     and 'followed_issue'
     """
 
-    follower = serializers.ReadOnlyField(source='follower.username')
+    followers = serializers.ReadOnlyField(source='owner.username')
     followed_issue_name = serializers.ReadOnlyField(source='followed.title')
 
     class Meta:
         model = Follower
         fields = [
-            'id', 'follower', 'created_at', 'followed_issue_name',
-            'followed_issue'
+            'id', 'followers', 'created_at', 'followed_issue_name',
         ]
 
     def create(self, validated_data):

@@ -1,5 +1,6 @@
 from django.db.models import Count
 from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from qa_api.permissions import IsOwnerOrReadOnly
 from .models import Profile
 from .serializers import ProfileSerializer
@@ -12,15 +13,20 @@ class ProfileList(generics.ListAPIView):
     """
 
     queryset = Profile.objects.annotate(
-        following_count=Count('owner__follower', distinct=True)
+        following_count=Count('owner__followers', distinct=True)
     ).order_by('-created_at')
     serializer_class = ProfileSerializer
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        # Profiles following a certain issue
+        'owner__followers__issue_following',
     ]
     ordering_fields = [
         'following_count',
-        'owner__follower__created_at',
+        'owner__followers__created_at',
     ]   
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
@@ -32,6 +38,6 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
 
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Profile.objects.annotate(
-        following_count=Count('owner__follower', distinct=True)
+        following_count=Count('owner__followers', distinct=True)
     ).order_by('-created_at')
     serializer_class = ProfileSerializer

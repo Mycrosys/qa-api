@@ -1,5 +1,6 @@
 from django.db.models import Count
 from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from qa_api.permissions import IsOwnerOrAssignedOrReadOnly
 from .models import Issue
 from .serializers import IssueSerializer
@@ -18,6 +19,14 @@ class IssueList(generics.ListCreateAPIView):
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        # Issues a User follows
+        'issues__owner__profile',
+
+        # Issues a User owns
+        'owner__profile',
     ]
     search_fields = [
         'owner__username',

@@ -17,17 +17,18 @@ class Follower(models.Model):
     'unique_together' makes sure a user can't 'double follow' the
     same Issue.
     """
-
-    follower = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name='followers', on_delete=models.CASCADE
+    )
     issue_following = models.ForeignKey(
-        Issue, on_delete=models.CASCADE
+        Issue, related_name='issues', on_delete=models.CASCADE
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
-        unique_together = ['issue_following', 'follower']
+        unique_together = ['issue_following', 'owner']
 
     def __str__(self):
-        return f'{self.follower} {self.issue_following}'
+        return f'{self.owner} {self.issue_following}'
