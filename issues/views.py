@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from qa_api.permissions import IsOwnerOrReadOnly
+from qa_api.permissions import IsOwnerOrAssignedOrReadOnly
 from .models import Issue
 from .serializers import IssueSerializer
 
@@ -22,5 +22,5 @@ class IssueDetail(generics.RetrieveUpdateDestroyAPIView):
     Retrieve an issue and edit or delete it if you own it.
     """
     serializer_class = IssueSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrAssignedOrReadOnly]
     queryset = Issue.objects.all()
