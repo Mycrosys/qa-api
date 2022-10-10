@@ -36,6 +36,7 @@ class IssueList(generics.ListCreateAPIView):
 
     ordering_fields = [
         'journals_count',
+        'updated_at',
     ]
 
     def perform_create(self, serializer):
