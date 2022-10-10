@@ -33,7 +33,7 @@ class Journal(models.Model):
         Metaclass - Ordering by Time the Issues were created
         """
 
-        ordering = ['created_at']
+        ordering = ['-created_at']
 
     def __str__(self):
         """
