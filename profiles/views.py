@@ -13,6 +13,7 @@ class ProfileList(generics.ListAPIView):
     """
 
     queryset = Profile.objects.annotate(
+        issues_count=Count('owner__issue', distinct=True),
         following_count=Count('owner__followers', distinct=True)
     ).order_by('-created_at')
     serializer_class = ProfileSerializer
@@ -25,6 +26,7 @@ class ProfileList(generics.ListAPIView):
         'owner__followers__issue_following',
     ]
     ordering_fields = [
+        'issues_count',
         'following_count',
         'owner__followers__created_at',
     ]   
@@ -38,6 +40,7 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
 
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Profile.objects.annotate(
+        issues_count=Count('owner__issue', distinct=True),
         following_count=Count('owner__followers', distinct=True)
     ).order_by('-created_at')
     serializer_class = ProfileSerializer
