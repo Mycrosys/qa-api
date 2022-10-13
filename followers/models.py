@@ -7,7 +7,7 @@ class Follower(models.Model):
     """
     Follower Model that contains Follower Information.
     -----------------------------------------------------------------
-    follower:        The User that follows the Issue.
+    followers:       The User that follows the Issue.
     -----------------------------------------------------------------
     issue_following: The Issue that is being followed.
     -----------------------------------------------------------------
@@ -21,14 +21,13 @@ class Follower(models.Model):
         User, related_name='followers', on_delete=models.CASCADE
     )
     issue_following = models.ForeignKey(
-        Issue, related_name='issues', on_delete=models.CASCADE
+        Issue, related_name='issue_following', on_delete=models.CASCADE
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
-        unique_together = ['issue_following', 'owner']
 
     def __str__(self):
         return f'{self.owner} {self.issue_following}'

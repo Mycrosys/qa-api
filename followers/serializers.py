@@ -9,14 +9,13 @@ class FollowerSerializer(serializers.ModelSerializer):
     Create method handles the unique constraint on 'followers'
     and 'followed_issue'
     """
-
-    followers = serializers.ReadOnlyField(source='owner.username')
-    followed_issue_name = serializers.ReadOnlyField(source='followed.title')
+    owner = serializers.ReadOnlyField(source='owner.username')
+    #issue_following = serializers.ReadOnlyField(source='issue_following.title')
 
     class Meta:
         model = Follower
         fields = [
-            'id', 'followers', 'created_at', 'followed_issue_name',
+            'id', 'owner', 'created_at', 'issue_following',
         ]
 
     def create(self, validated_data):
