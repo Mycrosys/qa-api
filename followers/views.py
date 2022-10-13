@@ -4,7 +4,7 @@ from .models import Follower
 from .serializers import FollowerSerializer
 
 
-class FollowerList(generics.ListAPIView):
+class FollowerList(generics.ListCreateAPIView):
     """
     List all instances of a user following an Issue.
     Create a follower and follow an Issue if logged in.
