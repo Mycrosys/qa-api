@@ -10,8 +10,7 @@ class FollowerSerializer(serializers.ModelSerializer):
     and 'followed_issue'
     """
     owner = serializers.ReadOnlyField(source='owner.username')
-    #issue_following = serializers.ReadOnlyField(source='issue_following.title')
-
+    
     class Meta:
         model = Follower
         fields = [

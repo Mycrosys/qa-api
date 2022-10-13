@@ -23,7 +23,7 @@ class IssueList(generics.ListCreateAPIView):
     ]
     filterset_fields = [
         # Issues a User follows
-        'issues__owner__profile',
+        'issue_following__owner__profile',
 
         # Issues a User owns
         'owner__profile',
