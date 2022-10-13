@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from issues.models import Issue
+from followers.models import Follower
 
 
 class IssueSerializer(serializers.ModelSerializer):
@@ -11,6 +12,7 @@ class IssueSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     journals_count = serializers.ReadOnlyField()
+    following_id = serializers.SerializerMethodField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -29,6 +31,16 @@ class IssueSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
+    def get_following_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            following = Follower.objects.filter(
+                owner=user, issue_following=obj
+            ).first()
+            
+            return following.id if following else None
+        return None
+
     class Meta:
         model = Issue
         fields = [
@@ -36,5 +48,5 @@ class IssueSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'description', 'image', 'due_date',
             'priority', 'category', 'state', 'overdue',
-            'assigned_to', 'journals_count'
+            'assigned_to', 'journals_count', 'following_id'
         ]
