@@ -84,7 +84,7 @@ class IssueDetailViewTests(APITestCase):
 
     def test_user_can_update_own_issue(self):
         """
-        Tests if a User can update an Issue he/she created
+        Tests if a logged in User can update an Issue he/she created
         """
         self.client.login(username='tester', password='pass')
         response = self.client.put('/issues/1/',
@@ -97,7 +97,8 @@ class IssueDetailViewTests(APITestCase):
 
     def test_user_cant_update_another_users_issue(self):
         """
-        Tests if a User can not update an Issue he/she didn't create
+        Tests if a logged in User can not update an Issue he/she
+        didn't create
         """
         self.client.login(username='tester', password='pass')
         response = self.client.put('/issues/2/', {'title': 'a new title'})

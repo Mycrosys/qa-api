@@ -241,7 +241,7 @@ Peppermint QA API is an API that handles Data for the [Project Peppermint](https
 ### General Testing
 
 1. PEP8 Online would have been used for the validation of the Python code. During the Time of testing, this site was unavailable and could not be used. The preinstalled pycodestyle linter was used to check that there are no errors anywhere in the code.
-
+<img src="./docs/images/no_problems_workspace_api.jpg" alt="Picture of the Problems Tab in the gitpod workspace"></h2><br>
 <br>
 
 ### Automated Testing (Django Testcase)
@@ -252,8 +252,8 @@ Peppermint QA API is an API that handles Data for the [Project Peppermint](https
     - Tests if a User that is not logged in can create an Issue
     - Tests if a User can see the Issue Details
     - Tests if a User gets the correct Error when requesting the Detail of an issue that doesn't exist
-    - Tests if a User can update an Issue he/she created
-    - Tests if a User can not update an Issue he/she didn't create
+    - Tests if a logged in User can update an Issue he/she created
+    - Tests if a logged in User can not update an Issue he/she didn't create
 2. The Tests are run by typing "python3 manage.py test" in the Terminal.
 3. Results: <h2><img src="./docs/images/automatic_tests_results.jpg" alt="Picture of the Results of automatic Tests in Django"></h2>
 
