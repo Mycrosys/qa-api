@@ -116,6 +116,7 @@ class Issue(models.Model):
 
         return f'{self.id} {self.title}'
 
+
 @receiver(pre_save, sender=Issue)
 def create_journal(sender, instance, **kwargs):
     """
@@ -168,5 +169,6 @@ def create_journal(sender, instance, **kwargs):
         # remove the empty space and ',' at the end of the string
         action = action[:-2]
         # current_user = request.user
-        Journal.objects.create(owner=instance.owner, issue=instance,
-                               action=action, description=description)
+        if action != "":
+            Journal.objects.create(owner=instance.owner, issue=instance,
+                                   action=action, description=description)
