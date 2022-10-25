@@ -46,6 +46,7 @@ class IssueListViewTests(APITestCase):
                                      'due_date': '2022-11-29T20:00:00Z'})
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+
 class IssueDetailViewTests(APITestCase):
 
     def setUp(self):
@@ -53,7 +54,9 @@ class IssueDetailViewTests(APITestCase):
         Setup Class to create test users
         """
         tester = User.objects.create_user(username='tester', password='pass')
-        testertwo = User.objects.create_user(username='testertwo', password='pass')
+        testertwo = User.objects.create_user(
+                                            username='testertwo',
+                                            password='pass')
         Issue.objects.create(owner=tester,
                              title='This is a test',
                              description='Just a test Issue',
@@ -62,7 +65,6 @@ class IssueDetailViewTests(APITestCase):
                              title='This is another test',
                              description='Just another test Issue',
                              due_date='2022-11-29T20:00:00Z')
-
 
     def test_can_retrieve_issue_using_valid_id(self):
         """
@@ -75,7 +77,7 @@ class IssueDetailViewTests(APITestCase):
     def test_cant_retrieve_issue_using_invalid_id(self):
         """
         Tests if a User gets the correct Error when requesting
-        the Detail of an Issue that doesn't exist
+        the Detail of an issue that doesn't exist
         """
         response = self.client.get('/issues/12345/')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -85,9 +87,10 @@ class IssueDetailViewTests(APITestCase):
         Tests if a User can update an Issue he/she created
         """
         self.client.login(username='tester', password='pass')
-        response = self.client.put('/issues/1/', {'title': 'a new title',
-                                                  'description': 'New Description',
-                                                  'due_date': '2022-11-19T20:00:00Z'})
+        response = self.client.put('/issues/1/',
+                                   {'title': 'a new title',
+                                    'description': 'New Description',
+                                    'due_date': '2022-11-19T20:00:00Z'})
         issue = Issue.objects.filter(pk=1).first()
         self.assertEqual(issue.title, 'a new title')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

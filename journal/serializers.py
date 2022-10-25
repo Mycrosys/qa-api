@@ -25,9 +25,10 @@ class JournalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Journal
         fields = [
-            'id', 'owner', 'is_owner', 'issue', 'created_at', 
+            'id', 'owner', 'is_owner', 'issue', 'created_at',
             'updated_at', 'action', 'description'
         ]
+
 
 class JournalDetailSerializer(JournalSerializer):
     """

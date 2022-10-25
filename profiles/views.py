@@ -29,7 +29,8 @@ class ProfileList(generics.ListAPIView):
         'issues_count',
         'following_count',
         'owner__followers__created_at',
-    ]   
+    ]
+
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
