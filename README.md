@@ -240,7 +240,7 @@ Peppermint QA API is an API that handles Data for the [Project Peppermint](https
 
 ### General Testing
 
-1. PEP8 Online would have been used for the validation of the Python code. During the Time of testing, this site was unavailable and could not be used. The preinstalled pycodestyle linter was used to check that there are no errors anywhere in the code.
+1. PEP8 Online would have been used for the validation of the Python code. During the Time of testing, this site was unavailable and could not be used. The preinstalled pycodestyle linter was used to check that there are no errors anywhere in the code, except for 4 warnings in settings.py, that the line is too long (can't be avoided in this case).
 <img src="./docs/images/no_problems_workspace_api.jpg" alt="Picture of the Problems Tab in the gitpod workspace"></h2><br>
 <br>
 
@@ -294,7 +294,7 @@ Peppermint QA API is an API that handles Data for the [Project Peppermint](https
 1. Next, click on "Settings" in the Top Nav and scroll down to "Config Vars". Click on "Reveal Config Vars"
 1. Add the following Variables. "Port" with a value of "8000", "DISABLE_COLLECTSTATIC" with a value of "1" as well as the variables "SECRET_KEY", and "CLOUDINARY_URL" with the values matching your settings.py file. For that matter, it is important, that the DATABASE_URL in your Heroku Config Vars matches the one in your settings.py as well.
 1. Add a Variable for the allowed host of the API. The variable "ALLOWED_HOST" should contain the link of your deployed API without any 'HTTPS://' or '/' in it. On Heroku, this would be "myappname.herokuapp.com".
-1. Add a Variable for the Client Origin. The variable "CLIENT_ORIGIN" should contain the full link of the deployed Project that uses the API, for example, "https://myappthatusestheapi.herokuapp.com/".
+1. Add a Variable for the Client Origin. The variable "CLIENT_ORIGIN" should contain the full link of the deployed Project that uses the API, for example, without the '/' at the end, e.g. "https://myappthatusestheapi.herokuapp.com".
 1. Add a Variable for the Client Developer Origin. The variable "CLIENT_ORIGIN_DEV" should contain the full link of the Gitpod workspace. This could be something like "https://3000-username-somethingsomething12345.gitpod.io". Take notice that there should not be a '/' at the end.
 1. On the same page, scroll further down to "Buildpacks". Click on "Add buildpack" and add Python to it. Confirm by clicking "Save changes".
 1. On the Top Nav now select "Deploy". Select GitHub as the deployment option and connect to your GitHub repository. Search for your repository name and click on the "connect" button.
